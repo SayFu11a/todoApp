@@ -2,16 +2,21 @@ import TasksFilter from "../TasksFilter"
 
 import "./Footer.css"
 
-const Footer = () => {
-  return (
-    <footer className="footer">
-          <span className="todo-count">1 items left</span>
+const Footer = ({ fliterHandle, filterPos, cleareCompleted, todosArr }) => {
+    const activeTodoCount = todosArr.filter(el => !el.complited).length
 
-          <TasksFilter />
-          
-          <button className="clear-completed">Clear completed</button>
+    return (
+        <footer className="footer">
+            <span className="todo-count">{ activeTodoCount } items left</span>
+            <TasksFilter 
+                fliterHandle={ fliterHandle }
+                filterPos={ filterPos }
+            />
+            <button 
+                onClick={ cleareCompleted }
+                className="clear-completed">Clear completed</button>
         </footer>
-  )
+    )
 }
 
 export default Footer

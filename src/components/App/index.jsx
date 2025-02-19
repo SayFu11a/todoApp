@@ -8,12 +8,41 @@ import './App.css'
 
 export default class App extends Component {
 
+    maxId = 100;
+
     state = {
         todosArr: [
-            { label: 'Drink Coffee',  time: 'created 17 seconds ago', id: 1 },
-            { label: 'Drink Coffee2', time: 'created 37 seconds ago', id: 2 },
-            { label: 'Drink 333', time: 'created 57 seconds ago', id: 3 },
-        ]
+            this.createTodoItem('Drink Coffee'),
+            this.createTodoItem('Drink Coffee2'),
+            this.createTodoItem('Drink 333')
+        ],
+        filterPosition: 0,
+    }
+
+    fliterHandle = (position) => {
+        this.setState({ 
+            filterPosition: position
+        })
+    }
+
+    createTodoItem(label) {
+        return { 
+            label: label, 
+            time: 'created 17 seconds ago', 
+            complited: false,
+            id: this.maxId++
+        }
+    }
+
+    addItem = (text) => {
+        this.setState(({ todosArr }) => {
+            const newItem = this.createTodoItem(text)
+            const newTodosArr = [...todosArr, newItem]
+
+            return {
+                todosArr: newTodosArr
+            }
+        })
     }
 
     deleteItem = (id) => {
@@ -28,15 +57,58 @@ export default class App extends Component {
         })
     }
 
+    cleareCompleted = () => {
+        this.setState(({todosArr}) => {
+            
+            const newArr = todosArr.filter(el => !el.complited )
+
+            return {
+                todosArr: newArr
+            }
+        })
+    }
+
+    toggleProperty(arr, id, propName) {
+        const idx = arr.findIndex(el => el.id === id)
+
+        const oldItem = arr[idx]
+        const newItem = {...oldItem, 
+            [propName]: !oldItem[propName]}
+
+        return [
+            ...arr.slice(0, idx),
+            newItem,
+            ...arr.slice(idx + 1)
+        ]
+    }
+
+
+
+    onToggleDone = (id) => {
+        this.setState(({ todosArr }) => {
+            return {
+                todosArr: this.toggleProperty(todosArr, id, 'complited')
+            }
+        })
+    }
+
     render () {
         return (
             <section className="todoapp">
-                <Header />
+                <Header onAdded={ this.addItem } />
                 <section className="main">
                     <TaskList 
                         todosArr={ this.state.todosArr }
-                        onDeleted={ this.deleteItem }/>
-                    <Footer />
+                        onDeleted={ this.deleteItem }
+                        onToggleDone={ this.onToggleDone }
+                        filterPos={ this.state.filterPosition }
+                    />
+                    <Footer
+                        todosArr={ this.state.todosArr }
+                        fliterHandle={ this.fliterHandle }
+                        filterPos={ this.state.filterPosition }
+                        cleareCompleted = {this.cleareCompleted}
+                    />
                 </section>
             </section>
         )

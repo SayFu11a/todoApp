@@ -2,31 +2,10 @@ import { Component } from "react"
 
 export default class Task extends Component {
 
-    state = {
-        complited: false,
-    }
-
-    onLiClick = () => {
-        this.setState( (state) => {
-            return { 
-                complited: !state.complited
-            }
-        })
-    }
-
-    onMarkImportant = () => {
-        this.setState((state) =>{
-            return {
-                important: !state.important
-            }
-        })
-    }
-
-
     render () {
-        const { label, time, onDeleted } = this.props
-        const { complited } = this.state
-
+        const { label, time, 
+            onDeleted, complited, 
+            onToggleDone } = this.props
 
         return (
             <li className={ complited ? 'completed' : ''}>
@@ -35,9 +14,9 @@ export default class Task extends Component {
                 className="toggle" 
                 type="checkbox" 
                 checked={complited} 
-                onChange={ this.onLiClick } 
+                onChange={ onToggleDone } 
             />
-            <label onClick={ this.onLiClick } >
+            <label onClick={ onToggleDone } >
                 <span className="description">{label}</span>
                 <span className="created">{time}</span>
             </label>
