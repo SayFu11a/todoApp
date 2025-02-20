@@ -25,24 +25,28 @@ export default class App extends Component {
         })
     }
 
+
     createTodoItem(label) {
         return { 
-            label: label, 
-            time: 'created 17 seconds ago', 
+            label: label,
+            createdDate: new Date(),
             complited: false,
             id: this.maxId++
         }
     }
 
     addItem = (text) => {
-        this.setState(({ todosArr }) => {
-            const newItem = this.createTodoItem(text)
-            const newTodosArr = [...todosArr, newItem]
+        if(text !== '') {
+            this.setState(({ todosArr }) => {
+                
+                const newItem = this.createTodoItem(text)
+                const newTodosArr = [...todosArr, newItem]
 
-            return {
-                todosArr: newTodosArr
-            }
-        })
+                return {
+                    todosArr: newTodosArr
+                }
+            })
+        }
     }
 
     deleteItem = (id) => {
@@ -59,7 +63,7 @@ export default class App extends Component {
 
     cleareCompleted = () => {
         this.setState(({todosArr}) => {
-            
+
             const newArr = todosArr.filter(el => !el.complited )
 
             return {
@@ -82,8 +86,6 @@ export default class App extends Component {
         ]
     }
 
-
-
     onToggleDone = (id) => {
         this.setState(({ todosArr }) => {
             return {
@@ -101,7 +103,7 @@ export default class App extends Component {
                         todosArr={ this.state.todosArr }
                         onDeleted={ this.deleteItem }
                         onToggleDone={ this.onToggleDone }
-                        filterPos={ this.state.filterPosition }
+                        filterPos = { this.state.filterPosition }
                     />
                     <Footer
                         todosArr={ this.state.todosArr }

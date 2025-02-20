@@ -1,6 +1,7 @@
 import Task from '../Task'
-
 import  './TaskList.css'
+import PropTypes from "prop-types";
+
 
 const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
 
@@ -24,6 +25,7 @@ const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
             <Task 
                 key={id} 
                 { ...itemProps }
+                createdDate={item.createdDate}
                 onDeleted={ () => onDeleted(id) }
                 onToggleDone={ () => onToggleDone(id) }
             />
@@ -42,5 +44,16 @@ const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
         </ul>
     )
 }
+
+TaskList.defaultProps= {
+    onDeleted: () => {}
+}
+
+TaskList.propTypes = {
+    onDeleted: PropTypes.func,
+    todosArr: PropTypes.arrayOf(PropTypes.object),
+    onToggleDone: PropTypes.func,
+    filterPos: PropTypes.number,
+};
 
 export default TaskList
