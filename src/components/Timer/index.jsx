@@ -4,8 +4,8 @@ const Timer = ({ min, sec, id }) => {
     // Изначальное время в секундах из пропсов
     const totalSeconds = Number(min) * 60 + Number(sec);
 
-    // Пытаемся загрузить сохранённое состояние таймера из localStorage
-    const savedTimer = localStorage.getItem(`timer-${id}`);
+    // Пытаемся загрузить сохранённое состояние таймера из sessionStorage
+    const savedTimer = sessionStorage.getItem(`timer-${id}`);
     let initialState = {
         isActive: false,
         deadline: null,
@@ -29,7 +29,7 @@ const Timer = ({ min, sec, id }) => {
                 initialState = { isActive: false, deadline: null, remaining: parsed.remaining };
             }
         } catch (error) {
-            console.error('Ошибка чтения таймера из localStorage', error);
+            console.error('Ошибка чтения таймера из sessionStorage', error);
         }
     }
 
@@ -39,14 +39,14 @@ const Timer = ({ min, sec, id }) => {
 
     const intervalRef = useRef(null);
 
-    // Сохраняем текущее состояние таймера в localStorage при изменениях
+    // Сохраняем текущее состояние таймера в sessionStorage при изменениях
     useEffect(() => {
         const timerData = {
             isActive,
             deadline,
             remaining,
         };
-        localStorage.setItem(`timer-${id}`, JSON.stringify(timerData));
+        sessionStorage.setItem(`timer-${id}`, JSON.stringify(timerData));
     }, [isActive, deadline, remaining, id]);
 
     // Обновление оставшегося времени, если таймер активен
@@ -77,6 +77,15 @@ const Timer = ({ min, sec, id }) => {
             setIsActive(true);
         }
     };
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            sessionStorage.clear();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, []);
 
     // Функция паузы: вычисляем оставшееся время, переводим таймер в режим "на паузе"
     const handlePause = () => {

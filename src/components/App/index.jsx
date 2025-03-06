@@ -49,6 +49,7 @@ export default class App extends Component {
     };
 
     deleteItem = (id) => {
+        sessionStorage.removeItem(`timer-${id}`);
         this.setState(({ todosArr }) => {
             const idx = todosArr.findIndex((el) => el.id === id);
             const before = todosArr.slice(0, idx);
