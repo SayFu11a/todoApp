@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { formatDistanceStrict } from 'date-fns';
 
 import PropTypes from 'prop-types';
+import Timer from '../Timer';
 
 export default class Task extends Component {
     static defaultProps = {
@@ -15,6 +16,8 @@ export default class Task extends Component {
         complited: PropTypes.bool,
         onToggleDone: PropTypes.func,
         createdDate: PropTypes.instanceOf(Date),
+        min: PropTypes.number,
+        sec: PropTypes.number,
     };
 
     render() {
@@ -24,7 +27,7 @@ export default class Task extends Component {
             }
         };
 
-        const { label, onDeleted, complited, onToggleDone, createdDate } = this.props;
+        const { label, onDeleted, complited, onToggleDone, createdDate, min, sec, id } = this.props;
 
         customPropTypes('label', label, 'string');
 
@@ -32,9 +35,16 @@ export default class Task extends Component {
             <li className={complited ? 'completed' : ''}>
                 <div className="view">
                     <input className="toggle" type="checkbox" checked={complited} onChange={onToggleDone} />
-                    <label onClick={onToggleDone}>
-                        <span className="description">{label}</span>
-                        <span className="created">
+                    <label>
+                        {/* label */}
+                        {/* onClick={onToggleDone} */}
+                        <span className="title" onClick={onToggleDone}>
+                            {label}
+                        </span>
+
+                        <Timer min={min} sec={sec} id={id} />
+
+                        <span className="description">
                             {formatDistanceStrict(createdDate, new Date(), {
                                 addSuffix: true,
                             })}

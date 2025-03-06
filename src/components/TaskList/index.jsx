@@ -23,6 +23,7 @@ const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
             <Task
                 key={id}
                 {...itemProps}
+                id={id}
                 createdDate={item.createdDate}
                 onDeleted={() => onDeleted(id)}
                 onToggleDone={() => onToggleDone(id)}

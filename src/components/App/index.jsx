@@ -11,9 +11,9 @@ export default class App extends Component {
 
     state = {
         todosArr: [
-            this.createTodoItem('Drink Coffee'),
-            this.createTodoItem('Drink Coffee2'),
-            this.createTodoItem('Drink 333'),
+            this.createTodoItem('Drink Coffee', 1, 1),
+            this.createTodoItem('Drink Coffee2', 1, 1),
+            this.createTodoItem('Drink 333', 1, 1),
         ],
         filterPosition: 0,
     };
@@ -24,19 +24,21 @@ export default class App extends Component {
         });
     };
 
-    createTodoItem(label) {
+    createTodoItem(label, min, sec) {
         return {
             label: label,
             createdDate: new Date(),
             complited: false,
             id: this.maxId++,
+            min: min,
+            sec: sec,
         };
     }
 
-    addItem = (text) => {
+    addItem = (text, min, sec) => {
         if (text !== '') {
             this.setState(({ todosArr }) => {
-                const newItem = this.createTodoItem(text);
+                const newItem = this.createTodoItem(text, min, sec);
                 const newTodosArr = [...todosArr, newItem];
 
                 return {
