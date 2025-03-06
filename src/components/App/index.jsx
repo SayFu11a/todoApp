@@ -61,13 +61,19 @@ export default class App extends Component {
         });
     };
 
-    cleareCompleted = () => {
-        this.setState(({ todosArr }) => {
-            const newArr = todosArr.filter((el) => !el.complited);
+    // cleareCompleted = () => {
+    //     this.setState(({ todosArr }) => {
+    //         const newArr = todosArr.filter((el) => !el.complited);
+    //         return {
+    // /            todosArr: newArr,
+    //         };
+    //     });
+    // };
 
-            return {
-                todosArr: newArr,
-            };
+    cleareCompleted = () => {
+        const newArr = this.state.todosArr.filter((el) => el.complited);
+        newArr.map((el) => {
+            this.deleteItem(el.id);
         });
     };
 
