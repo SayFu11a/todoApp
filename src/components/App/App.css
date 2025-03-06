@@ -469,3 +469,15 @@ html .clear-completed:active {
     font-weight: 400;
     font-size: 24px;
 }
+
+/* Для WebKit-браузеров (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Для Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}

@@ -49,6 +49,7 @@ export default class NewTaskForm extends Component {
                     autoFocus
                 />
                 <input
+                    type="number"
                     className="new-todo-form__timer"
                     placeholder="Min"
                     autoFocus
@@ -56,6 +57,7 @@ export default class NewTaskForm extends Component {
                     onChange={this.onMinChange}
                 />
                 <input
+                    type="number"
                     className="new-todo-form__timer"
                     placeholder="Sec"
                     autoFocus
