@@ -29,6 +29,7 @@ export default class App extends Component {
             label: label,
             createdDate: new Date(),
             complited: false,
+            editing: false,
             id: this.maxId++,
             min: min,
             sec: sec,
@@ -61,14 +62,26 @@ export default class App extends Component {
         });
     };
 
-    // cleareCompleted = () => {
-    //     this.setState(({ todosArr }) => {
-    //         const newArr = todosArr.filter((el) => !el.complited);
-    //         return {
-    // /            todosArr: newArr,
-    //         };
-    //     });
-    // };
+    onEditLabel = (text, id) => {
+        this.setState(({ todosArr }) => {
+            const idx = todosArr.findIndex((el) => el.id === id);
+
+            const oldItem = todosArr[idx];
+            const newItem = { ...oldItem, label: text };
+
+            return {
+                todosArr: [...todosArr.slice(0, idx), newItem, ...todosArr.slice(idx + 1)],
+            };
+        });
+    };
+
+    onEditing = (id) => {
+        this.setState(({ todosArr }) => {
+            return {
+                todosArr: this.toggleProperty(todosArr, id, 'editing'),
+            };
+        });
+    };
 
     cleareCompleted = () => {
         const newArr = this.state.todosArr.filter((el) => el.complited);
@@ -100,6 +113,8 @@ export default class App extends Component {
                 <Header onAdded={this.addItem} />
                 <section className="main">
                     <TaskList
+                        onEditLabel={this.onEditLabel}
+                        onEditing={this.onEditing}
                         todosArr={this.state.todosArr}
                         onDeleted={this.deleteItem}
                         onToggleDone={this.onToggleDone}

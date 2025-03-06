@@ -2,7 +2,7 @@ import Task from '../Task';
 import './TaskList.css';
 import PropTypes from 'prop-types';
 
-const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
+const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos, onEditing, onEditLabel }) => {
     let filtredTodosArr;
 
     switch (filterPos) {
@@ -27,6 +27,8 @@ const TaskList = ({ todosArr, onDeleted, onToggleDone, filterPos }) => {
                 createdDate={item.createdDate}
                 onDeleted={() => onDeleted(id)}
                 onToggleDone={() => onToggleDone(id)}
+                onEditing={() => onEditing(id)}
+                onEditLabel={onEditLabel}
             />
         );
     });

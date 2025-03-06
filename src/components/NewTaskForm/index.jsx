@@ -28,8 +28,6 @@ export default class NewTaskForm extends Component {
     };
 
     onSubmit = (e) => {
-        console.log('onSubmit');
-
         e.preventDefault();
         this.props.onAdded(this.state.label, this.state.min, this.state.sec);
         this.setState({
